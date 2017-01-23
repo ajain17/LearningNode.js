@@ -1,0 +1,17 @@
+{
+  "name": "ayushi-web-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./app.js"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "expect.js": "^0.3.1",
+    "express": "^4.14.0",
+    "express-generator": "^4.14.0",
+    "express-session": "^1.15.0",
+    "mocha": "^3.2.0",
+    "node-inspector": "0.12.8"
+  }
+}
