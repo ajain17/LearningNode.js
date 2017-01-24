@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+	<title>Server Stats</title>
+	<meta name="description" content="Server Stats">
+  </head>
+  <body>
+		<div class="container">
+					<h2>Uptime</h2>
+					<p>Server running for <%= uptime %> minutes</p>
+					<h2>Requests</h2>
+					<p>Processed <%= numRequests %> requests so far</p>
+					<p>Avg Duration: <%= avgProcess %>ms</p>
+					<p>Shortest: <%= shortestProcess %>ms</p>
+					<p>Longest: <%= longestProcess %>ms</p>
+		</div>
+  </body>
+</html>
