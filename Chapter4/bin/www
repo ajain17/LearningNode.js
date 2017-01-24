@@ -1,0 +1,117 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('myproject:server');
+var http = require('http');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ * We are creating the boot and shutdown methods to handle startup of application from tests.
+ *
+ */
+
+
+var boot = function () {
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+};
+
+var shutdown = function () {
+  server.close();
+};
+
+/**
+ * module is a keyword in node.js that tells us the current module being executed by node
+ * require.main tells us the main module being executed by Node.js
+ * if current module is the main module, that means the app was directly started by running npm start.
+ * Hence, just boot the server.
+ * Otherwise, it means that the app was started by some other module (like tests).
+ * Hence, go to else, and export the boot, shutdown functions and port variable
+ * The tests can thereby start the app using the exported boot function
+ */
+if (require.main === module) {
+    boot();
+} else {
+  console.info('Running app as a module.');
+  module.exports.boot = boot;
+  module.exports.shutdown = shutdown;
+  module.exports.port = app.get('port');
+}
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

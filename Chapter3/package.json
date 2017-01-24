@@ -2,9 +2,7 @@
   "name": "ayushi-web-app",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-
-  },
+  "scripts": {},
   "dependencies": {
     "cookie-parser": "^1.4.3",
     "expect.js": "^0.3.1",
